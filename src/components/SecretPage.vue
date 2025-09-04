@@ -29,8 +29,16 @@
     <main class="secret-content">
       <div class="success-card">
         <img 
-          src="../assets/mysteriousmissive.png" 
-          alt="An image of a mysterious missive sealed with a wax stamp" 
+          src="../assets/lettercontents.png" 
+          alt="A mysterious letter that reads: Today is the day of the castle’s Volcarona Festival, and the perfect opportunity to complete our job.
+    King Harmonia and his son will be out of the castle participating in the Hunt in preparation of tonight’s feast, and the castle’s doors are open to the public for tours.
+    We will use this opportunity to steal the arcane sheet  music. As you know, the Prince intends to use this music to force all of the Pokemon in the Kingdom of the Vale to war with the Other Side of the Kingdom.
+    We cannot allow this to happen — it would mean devastation for Pokemon and people alike.
+       Through reconnaissance, we have gathered that the sheet music is held in King Harmonia’s private chambers on the top floor of the castle. However, it is locked behind a door with 6 keyholes, requiring one key hidden on each floor of the castle, save for the final floor.
+    You will not be working alone. Meet the others in Liberty Alley outside the castle at noon. Inside the castle, those bearing our insignia will assist in this task as well.
+    King Harmonia and his hunting party will return at any moment, so be vigilant.
+    Stay safe, and good luck. It's signed with the symbol of a ribbon wrapped around a sword.
+" 
           class="success-image"
         />
         <div class="tune-in-info">
@@ -854,7 +862,7 @@ onUnmounted(() => {
 }
 
 .success-image {
-  max-height: 50vh;
+  max-height: 100%;
   max-width: 100%;
   object-fit: contain;
   margin-bottom: 30px;
