@@ -47,7 +47,7 @@ const emit = defineEmits(['login-success'])
 const password = ref('')
 const showError = ref(false)
 
-const correctPassword = 'groundfiresteelgrassnormalpsychic'
+const correctPassword = import.meta.env.VITE_PASSWORD || 'groundfiresteelgrassnormalpsychic'
 
 const handleLogin = () => {
   if (password.value === correctPassword) {
