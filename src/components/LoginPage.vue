@@ -72,6 +72,7 @@ const clearError = () => {
   justify-content: center;
   background: linear-gradient(135deg, #3cbdcb 0%, #bbc69c 100%);
   padding: 20px;
+  box-sizing: border-box;
 }
 
 .login-card {
@@ -80,8 +81,11 @@ const clearError = () => {
   padding: 40px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 80vw;
+  max-width: 90vw;
   width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  box-sizing: border-box;
 }
 
 .image-container {
@@ -92,7 +96,10 @@ const clearError = () => {
 }
 
 .login-image {
-  height: 40vh;
+  max-height: 35vh;
+  max-width: 100%;
+  width: auto;
+  height: auto;
   object-fit: contain;
 }
 
@@ -182,12 +189,61 @@ const clearError = () => {
 }
 
 @media (max-width: 480px) {
+  .login-container {
+    padding: 10px;
+    align-items: center;
+    justify-content: center;
+  }
+  
   .login-card {
-    padding: 30px 20px;
+    padding: 20px;
+    max-width: 95vw;
+    max-height: 95vh;
+    margin: 0;
+  }
+  
+  .login-image {
+    max-height: 25vh;
+    max-width: 90%;
+  }
+  
+  .image-container {
+    margin-bottom: 20px;
   }
   
   .login-title {
     font-size: 1.5rem;
+    margin-bottom: 20px;
+  }
+  
+  .login-form {
+    gap: 15px;
+  }
+  
+  .password-input {
+    padding: 12px 16px;
+    font-size: 16px; /* Prevents zoom on iOS */
+  }
+  
+  .login-button {
+    padding: 12px 24px;
+  }
+}
+
+/* Medium mobile screens */
+@media (max-width: 768px) and (min-width: 481px) {
+  .login-container {
+    padding: 15px;
+  }
+  
+  .login-card {
+    max-width: 85vw;
+    padding: 30px;
+  }
+  
+  .login-image {
+    max-height: 30vh;
+    max-width: 95%;
   }
 }
 </style>
