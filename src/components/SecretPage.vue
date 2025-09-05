@@ -92,16 +92,16 @@
         <div class="social-media-links">
           <h4>Find it on:</h4>
           <div class="social-icons">
-            <a href="https://open.spotify.com/show/49ytTCxUv495mj2zb2INhM?si=9cb0099fb3f94b9f" target="_blank" rel="noopener noreferrer" class="social-icon spotify-icon">
+            <a href="https://open.spotify.com/show/49ytTCxUv495mj2zb2INhM?si=9cb0099fb3f94b9f" target="_blank" rel="noopener noreferrer" class="social-icon spotify-icon" @click="handleSocialClick('spotify')">
               <img src="../assets/spotify.png" alt="Spotify" class="platform-logo" />
             </a>
-            <a href="https://www.youtube.com/@dunsparcedrampa" target="_blank" rel="noopener noreferrer" class="social-icon youtube-icon">
+            <a href="https://www.youtube.com/@dunsparcedrampa" target="_blank" rel="noopener noreferrer" class="social-icon youtube-icon" @click="handleSocialClick('youtube')">
               <img src="../assets/youtube.png" alt="YouTube" class="platform-logo" />
             </a>
-            <a href="https://podcasts.apple.com/us/podcast/dunsparce-drampa/id1578571454" target="_blank" rel="noopener noreferrer" class="social-icon apple-icon">
+            <a href="https://podcasts.apple.com/us/podcast/dunsparce-drampa/id1578571454" target="_blank" rel="noopener noreferrer" class="social-icon apple-icon" @click="handleSocialClick('apple_podcasts')">
               <img src="../assets/apple.png" alt="Apple Podcasts" class="platform-logo" />
             </a>
-            <a href="https://pocketcasts.com/podcast/dunsparce-drampa/70302e20-d1d2-0139-9b41-0acc26574db2" target="_blank" rel="noopener noreferrer" class="social-icon pocketcasts-icon">
+            <a href="https://pocketcasts.com/podcast/dunsparce-drampa/70302e20-d1d2-0139-9b41-0acc26574db2" target="_blank" rel="noopener noreferrer" class="social-icon pocketcasts-icon" @click="handleSocialClick('pocketcasts')">
               <img src="../assets/PocketCasts.png" alt="Pocketcasts" class="platform-logo" />
             </a>
           </div>
@@ -195,6 +195,14 @@
 
 <script setup>
 import { ref, onMounted, onUnmounted } from 'vue'
+import { 
+  trackPageView, 
+  trackLogout, 
+  trackSocialClick, 
+  trackAudioPlayer, 
+  trackFullscreenImage,
+  trackCountdownMilestone
+} from '../utils/analytics.js'
 
 const emit = defineEmits(['logout'])
 
@@ -207,6 +215,7 @@ const countdown = ref({
 
 const isReleased = ref(false)
 let countdownInterval = null
+let lastMilestoneTracked = null
 
 // Audio player state
 const audioPlayer = ref(null)
@@ -232,15 +241,24 @@ const updateCountdown = () => {
     return
   }
 
+  const days = Math.floor(distance / (1000 * 60 * 60 * 24))
+  
   countdown.value = {
-    days: Math.floor(distance / (1000 * 60 * 60 * 24)),
+    days: days,
     hours: Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
     minutes: Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60)),
     seconds: Math.floor((distance % (1000 * 60)) / 1000)
   }
+  
+  // Track countdown milestones
+  if (days <= 7 && days !== lastMilestoneTracked && days >= 0) {
+    trackCountdownMilestone(days)
+    lastMilestoneTracked = days
+  }
 }
 
 const logout = () => {
+  trackLogout() // Track logout event
   emit('logout')
 }
 
@@ -249,10 +267,12 @@ const toggleAudio = () => {
   if (audioPlayer.value) {
     if (isPlaying.value) {
       audioPlayer.value.pause()
+      trackAudioPlayer('pause') // Track audio pause
     } else {
       audioPlayer.value.play().catch(error => {
         console.log('Audio autoplay prevented:', error)
       })
+      trackAudioPlayer('play') // Track audio play
     }
   }
 }
@@ -261,6 +281,7 @@ const closeAudioPlayer = () => {
   if (audioPlayer.value) {
     audioPlayer.value.pause()
   }
+  trackAudioPlayer('close') // Track audio player close
   showAudioPlayer.value = false
 }
 
@@ -277,6 +298,7 @@ const onAudioLoaded = () => {
 // Fullscreen image methods
 const openFullscreen = () => {
   showFullscreen.value = true
+  trackFullscreenImage() // Track fullscreen image view
   // Prevent body scroll when modal is open
   document.body.style.overflow = 'hidden'
 }
@@ -287,9 +309,17 @@ const closeFullscreen = () => {
   document.body.style.overflow = 'auto'
 }
 
+// Track social media clicks
+const handleSocialClick = (platform) => {
+  trackSocialClick(platform)
+}
+
 onMounted(() => {
   updateCountdown()
   countdownInterval = setInterval(updateCountdown, 1000)
+  
+  // Track page view when component mounts
+  trackPageView('/secret', 'Secret Page - Dunsparce & Drampa Letter Contents')
 })
 
 onUnmounted(() => {

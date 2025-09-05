@@ -54,7 +54,8 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { trackLogin, trackLoginFailed, trackFullscreenImage, trackPageView } from '../utils/analytics.js'
 
 const emit = defineEmits(['login-success'])
 
@@ -66,8 +67,10 @@ const correctPassword = import.meta.env.VITE_PASSWORD || 'groundfiresteelgrassno
 
 const handleLogin = () => {
   if (password.value === correctPassword) {
+    trackLogin() // Track successful login
     emit('login-success')
   } else {
+    trackLoginFailed() // Track failed login attempt
     showError.value = true
     password.value = ''
   }
@@ -80,6 +83,7 @@ const clearError = () => {
 // Fullscreen image methods
 const openFullscreen = () => {
   showFullscreen.value = true
+  trackFullscreenImage() // Track fullscreen image view
   // Prevent body scroll when modal is open
   document.body.style.overflow = 'hidden'
 }
@@ -89,6 +93,11 @@ const closeFullscreen = () => {
   // Restore body scroll
   document.body.style.overflow = 'auto'
 }
+
+// Track page view when component mounts
+onMounted(() => {
+  trackPageView('/login', 'Login Page - Dunsparce & Drampa Secret Keys')
+})
 </script>
 
 <style scoped>
