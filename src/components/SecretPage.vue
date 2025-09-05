@@ -26,7 +26,7 @@
       </div>
     </header>
 
-        <main class="secret-content">
+    <main class="secret-content">
       <div class="success-card">
         <img 
           src="../assets/lettercontents.png" 
@@ -580,7 +580,7 @@ onUnmounted(() => {
 
 .audio-player {
   position: fixed;
-  top: 20px;
+  top: 30px;
   right: 20px;
   z-index: 1000;
   background: rgba(255, 255, 255, 0.95);
@@ -659,6 +659,7 @@ onUnmounted(() => {
     font-size: 2rem;
     margin-top: 60px; /* Add space to avoid overlap with back button */
     padding: 0 80px; /* Add horizontal padding to avoid button overlap */
+    line-height: 1.2; /* Tighter line spacing on mobile */
   }
   
   .logout-button {
@@ -676,6 +677,7 @@ onUnmounted(() => {
     font-size: 1.8rem;
     margin-top: 50px;
     padding: 0 70px;
+    line-height: 1.1; /* Even tighter line spacing on very small screens */
   }
   
   .logout-button {
