@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analytics Test</title>
+</head>
+<body>
+    <h1>Analytics Test Page</h1>
+    <p>Measurement ID: <span id="measurementId">Loading...</span></p>
+    <p>Analytics Status: <span id="status">Checking...</span></p>
+    <button onclick="testEvent()">Test Event</button>
+    
+    <script>
+        // Display measurement ID
+        const measurementId = 'G-TFNPDZKDVS'; // Your measurement ID
+        document.getElementById('measurementId').textContent = measurementId;
+        
+        // Test Google Analytics
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        
+        // Load Google Analytics
+        const script = document.createElement('script');
+        script.async = true;
+        script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+        document.head.appendChild(script);
+        
+        script.onload = () => {
+            gtag('js', new Date());
+            gtag('config', measurementId, {
+                enhanced_measurement: true
+            });
+            
+            document.getElementById('status').textContent = 'Analytics Loaded ✅';
+            console.log('Google Analytics loaded successfully');
+        };
+        
+        script.onerror = () => {
+            document.getElementById('status').textContent = 'Analytics Failed ❌';
+            console.error('Failed to load Google Analytics');
+        };
+        
+        function testEvent() {
+            if (typeof gtag !== 'undefined') {
+                gtag('event', 'test_event', {
+                    event_category: 'testing',
+                    event_label: 'manual_test',
+                    value: 1
+                });
+                alert('Test event sent! Check Google Analytics Real-time reports.');
+            } else {
+                alert('Analytics not loaded yet');
+            }
+        }
+    </script>
+</body>
+</html>

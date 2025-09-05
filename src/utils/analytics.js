@@ -1,19 +1,55 @@
 // Google Analytics utility functions
 // This file provides easy-to-use functions for tracking custom events
 
+let isInitialized = false;
+
+/**
+ * Initialize Google Analytics
+ */
+export function initializeAnalytics() {
+  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+  
+  if (!measurementId || measurementId === 'GA_MEASUREMENT_ID' || isInitialized) {
+    console.log('Google Analytics not initialized:', { measurementId, isInitialized });
+    return;
+  }
+
+  // Load Google Analytics script
+  const script = document.createElement('script');
+  script.async = true;
+  script.src = `https://www.googletagmanager.com/gtag/js?id=${measurementId}`;
+  document.head.appendChild(script);
+
+  script.onload = () => {
+    // Initialize gtag
+    window.gtag('js', new Date());
+    window.gtag('config', measurementId, {
+      enhanced_measurement: true,
+      page_title: document.title,
+      page_location: window.location.href
+    });
+    
+    isInitialized = true;
+    console.log('Google Analytics initialized with ID:', measurementId);
+  };
+}
+
 /**
  * Track a custom event in Google Analytics
  * @param {string} eventName - The name of the event
  * @param {object} parameters - Additional event parameters
  */
 export function trackEvent(eventName, parameters = {}) {
-  if (typeof gtag !== 'undefined') {
-    gtag('event', eventName, {
+  if (typeof window.gtag !== 'undefined' && isInitialized) {
+    window.gtag('event', eventName, {
       event_category: parameters.category || 'engagement',
       event_label: parameters.label || '',
       value: parameters.value || 0,
       ...parameters
     });
+    console.log('Analytics event tracked:', eventName, parameters);
+  } else {
+    console.log('Analytics not available, event not tracked:', eventName, parameters);
   }
 }
 
@@ -23,11 +59,15 @@ export function trackEvent(eventName, parameters = {}) {
  * @param {string} pageTitle - The page title
  */
 export function trackPageView(pagePath, pageTitle) {
-  if (typeof gtag !== 'undefined') {
-    gtag('config', import.meta.env.VITE_GA_MEASUREMENT_ID || 'GA_MEASUREMENT_ID', {
+  const measurementId = import.meta.env.VITE_GA_MEASUREMENT_ID;
+  if (typeof window.gtag !== 'undefined' && isInitialized && measurementId) {
+    window.gtag('config', measurementId, {
       page_path: pagePath,
       page_title: pageTitle,
     });
+    console.log('Page view tracked:', pagePath, pageTitle);
+  } else {
+    console.log('Analytics not available, page view not tracked:', pagePath, pageTitle);
   }
 }
 

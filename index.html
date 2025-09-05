@@ -6,22 +6,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dunsparce & Drampa - the Secret Keys</title>
     
-    <!-- Google Analytics 4 -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
+    <!-- Google Analytics 4 will be loaded by the Vue app -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-      
-      // Get GA Measurement ID from environment variable or use default
-      const gaMeasurementId = import.meta.env.VITE_GA_MEASUREMENT_ID || 'GA_MEASUREMENT_ID';
-      gtag('config', gaMeasurementId, {
-        // Enhanced measurement for automatic tracking
-        enhanced_measurement: true,
-        // Track page views
-        page_title: document.title,
-        page_location: window.location.href
-      });
+      window.gtag = gtag;
     </script>
   </head>
   <body>

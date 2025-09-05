@@ -1,5 +1,6 @@
 <script setup>
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
+import { initializeAnalytics } from './utils/analytics.js'
 import LoginPage from './components/LoginPage.vue'
 import SecretPage from './components/SecretPage.vue'
 
@@ -12,6 +13,11 @@ const handleLoginSuccess = () => {
 const handleLogout = () => {
   isAuthenticated.value = false
 }
+
+// Initialize analytics when app starts
+onMounted(() => {
+  initializeAnalytics()
+})
 </script>
 
 <template>
