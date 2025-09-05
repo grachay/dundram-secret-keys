@@ -93,7 +93,7 @@
           <h4>Find it on:</h4>
           <div class="social-icons">
             <a href="https://open.spotify.com/show/49ytTCxUv495mj2zb2INhM?si=9cb0099fb3f94b9f" target="_blank" rel="noopener noreferrer" class="social-icon spotify-icon">
-              <img src="../assets/Spotify.png" alt="Spotify" class="platform-logo" />
+              <img src="../assets/spotify.png" alt="Spotify" class="platform-logo" />
             </a>
             <a href="https://www.youtube.com/@dunsparcedrampa" target="_blank" rel="noopener noreferrer" class="social-icon youtube-icon">
               <img src="../assets/youtube.png" alt="YouTube" class="platform-logo" />
@@ -791,14 +791,6 @@ onUnmounted(() => {
   font-weight: 600;
 }
 
-.social-links {
-  display: flex;
-  flex-direction: column;
-  gap: 15px;
-  width: 100%;
-  margin-bottom: 20px;
-}
-
 .social-content {
   display: flex;
   flex-direction: column;
@@ -866,116 +858,10 @@ onUnmounted(() => {
   border-radius: 12px;
 }
 
-.channel-link {
-  display: inline-block;
-  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-  color: white;
-  text-decoration: none;
-  padding: 12px 20px;
-  border-radius: 8px;
-  font-weight: 600;
-  transition: all 0.3s ease;
-  margin-top: 10px;
-}
-
-.channel-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
-}
-
-.social-link {
-  display: flex;
-  align-items: center;
-  gap: 15px;
-  padding: 20px;
-  border-radius: 12px;
-  text-decoration: none;
-  transition: all 0.3s ease;
-  border: 2px solid transparent;
-}
-
-.social-link:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
-}
-
-.tiktok-link {
-  background: linear-gradient(135deg, #ff0050 0%, #000000 100%);
-  color: white;
-}
-
-.tiktok-link:hover {
-  border-color: #ff0050;
-  box-shadow: 0 8px 20px rgba(255, 0, 80, 0.3);
-}
-
-.youtube-link {
-  background: linear-gradient(135deg, #ff0000 0%, #cc0000 100%);
-  color: white;
-}
-
-.youtube-link:hover {
-  border-color: #ff0000;
-  box-shadow: 0 8px 20px rgba(255, 0, 0, 0.3);
-}
-
-.social-icon {
-  font-size: 2rem;
-  min-width: 50px;
-  text-align: center;
-}
-
-.social-info {
-  display: flex;
-  flex-direction: column;
-  gap: 5px;
-  flex: 1;
-  text-align: left;
-}
-
-.social-info strong {
-  font-size: 1.1rem;
-  font-weight: 600;
-}
-
-.social-info span {
-  font-size: 0.9rem;
-  opacity: 0.9;
-}
-
-.social-card p {
-  margin-top: 15px;
-  color: #666;
-  font-style: italic;
-}
-
 /* Mobile responsiveness for social links */
 @media (max-width: 480px) {
-  .social-link {
-    padding: 15px;
-    gap: 10px;
-  }
-  
-  .social-icon {
-    font-size: 1.5rem;
-    min-width: 40px;
-  }
-  
-  .social-info strong {
-    font-size: 1rem;
-  }
-  
-  .social-info span {
-    font-size: 0.85rem;
-  }
-  
   .youtube-shorts-section h4 {
     font-size: 1.1rem;
-  }
-  
-  .channel-link {
-    padding: 10px 16px;
-    font-size: 0.9rem;
   }
   
   .shorts-container {
@@ -1118,36 +1004,5 @@ onUnmounted(() => {
   .click-hint {
     font-size: 0.8rem;
   }
-}
-
-.secret-info h3 {
-  color: #27ae60;
-  font-size: 1.5rem;
-  margin-bottom: 20px;
-  text-align: center;
-}
-
-.info-box {
-  background: linear-gradient(135deg, #f1f8e9 0%, #e8f5e8 100%);
-  padding: 30px;
-  border-radius: 15px;
-  border-left: 5px solid #27ae60;
-}
-
-.info-box p {
-  color: #555;
-  line-height: 1.6;
-  margin-bottom: 20px;
-}
-
-.info-box ul {
-  list-style: none;
-  padding: 0;
-}
-
-.info-box li {
-  color: #555;
-  padding: 8px 0;
-  font-size: 1rem;
 }
 </style>

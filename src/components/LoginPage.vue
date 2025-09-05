@@ -156,12 +156,6 @@ const closeFullscreen = () => {
   margin-bottom: 10px;
 }
 
-.login-subtitle {
-  color: #666;
-  font-size: 1rem;
-  margin-bottom: 30px;
-}
-
 .login-form {
   display: flex;
   flex-direction: column;
