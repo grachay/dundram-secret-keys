@@ -26,24 +26,25 @@
       </div>
     </header>
 
-    <main class="secret-content">
+        <main class="secret-content">
       <div class="success-card">
         <img 
           src="../assets/lettercontents.png" 
-          alt="A mysterious letter that reads: Today is the day of the castle’s Volcarona Festival, and the perfect opportunity to complete our job.
-    King Harmonia and his son will be out of the castle participating in the Hunt in preparation of tonight’s feast, and the castle’s doors are open to the public for tours.
+          alt="A mysterious letter that reads: Today is the day of the castle's Volcarona Festival, and the perfect opportunity to complete our job.
+    King Harmonia and his son will be out of the castle participating in the Hunt in preparation of tonight's feast, and the castle's doors are open to the public for tours.
     We will use this opportunity to steal the arcane sheet  music. As you know, the Prince intends to use this music to force all of the Pokemon in the Kingdom of the Vale to war with the Other Side of the Kingdom.
     We cannot allow this to happen — it would mean devastation for Pokemon and people alike.
-       Through reconnaissance, we have gathered that the sheet music is held in King Harmonia’s private chambers on the top floor of the castle. However, it is locked behind a door with 6 keyholes, requiring one key hidden on each floor of the castle, save for the final floor.
+       Through reconnaissance, we have gathered that the sheet music is held in King Harmonia's private chambers on the top floor of the castle. However, it is locked behind a door with 6 keyholes, requiring one key hidden on each floor of the castle, save for the final floor.
     You will not be working alone. Meet the others in Liberty Alley outside the castle at noon. Inside the castle, those bearing our insignia will assist in this task as well.
     King Harmonia and his hunting party will return at any moment, so be vigilant.
     Stay safe, and good luck. It's signed with the symbol of a ribbon wrapped around a sword.
 " 
-          class="success-image"
+          class="success-image clickable-image"
+          @click="openFullscreen"
         />
         <div class="tune-in-info">
-          <h3>Tune in for Legends of the Vale: Part 1!</h3>
-          <div class="release-date">Tuesday, September 9th at 12 pm ET</div>
+          <h3>Want to know what happens next?</h3>
+          <div class="release-date">Tune into <i>Legends of the Vale: Part 1</i> on Tuesday, September 9th at 12 pm ET</div>
           <div class="countdown-container">
             <div class="countdown-timer">
               <div class="countdown-item">
@@ -84,6 +85,25 @@
                 </div>
               </div>
             </div>
+          </div>
+        </div>
+        
+        <!-- Social Media Links -->
+        <div class="social-media-links">
+          <h4>Find it on:</h4>
+          <div class="social-icons">
+            <a href="https://open.spotify.com/show/49ytTCxUv495mj2zb2INhM?si=9cb0099fb3f94b9f" target="_blank" rel="noopener noreferrer" class="social-icon spotify-icon">
+              <img src="../assets/Spotify.png" alt="Spotify" class="platform-logo" />
+            </a>
+            <a href="https://www.youtube.com/@dunsparcedrampa" target="_blank" rel="noopener noreferrer" class="social-icon youtube-icon">
+              <img src="../assets/youtube.png" alt="YouTube" class="platform-logo" />
+            </a>
+            <a href="https://podcasts.apple.com/us/podcast/dunsparce-drampa/id1578571454" target="_blank" rel="noopener noreferrer" class="social-icon apple-icon">
+              <img src="../assets/apple.png" alt="Apple Podcasts" class="platform-logo" />
+            </a>
+            <a href="https://pocketcasts.com/podcast/dunsparce-drampa/70302e20-d1d2-0139-9b41-0acc26574db2" target="_blank" rel="noopener noreferrer" class="social-icon pocketcasts-icon">
+              <img src="../assets/PocketCasts.png" alt="Pocketcasts" class="platform-logo" />
+            </a>
           </div>
         </div>
       </div> 
@@ -157,6 +177,19 @@
         </div>
       </div>
     </main>
+    
+    <!-- Fullscreen Image Modal -->
+    <div v-if="showFullscreen" class="fullscreen-modal" @click="closeFullscreen">
+      <div class="fullscreen-container">
+        <button class="close-fullscreen" @click="closeFullscreen">✕</button>
+        <img 
+          src="../assets/lettercontents.png" 
+          alt="Full size letter content"
+          class="fullscreen-image"
+          @click.stop
+        />
+      </div>
+    </div>
   </div>
 </template>
 
@@ -179,6 +212,9 @@ let countdownInterval = null
 const audioPlayer = ref(null)
 const isPlaying = ref(false)
 const showAudioPlayer = ref(true)
+
+// Fullscreen image state
+const showFullscreen = ref(false)
 
 // Set the release date (September 9th, 2025 at 12:00 PM ET)
 const releaseDate = new Date('2025-09-09T16:00:00.000Z') // 12 PM ET = 4 PM UTC
@@ -236,6 +272,19 @@ const onAudioLoaded = () => {
       // Autoplay was prevented, user will need to click play
     })
   }
+}
+
+// Fullscreen image methods
+const openFullscreen = () => {
+  showFullscreen.value = true
+  // Prevent body scroll when modal is open
+  document.body.style.overflow = 'hidden'
+}
+
+const closeFullscreen = () => {
+  showFullscreen.value = false
+  // Restore body scroll
+  document.body.style.overflow = 'auto'
 }
 
 onMounted(() => {
@@ -348,20 +397,24 @@ onUnmounted(() => {
 /* Mobile responsiveness for countdown */
 @media (max-width: 480px) {
   .countdown-timer {
-    gap: 10px;
+    gap: 8px; /* Smaller gap between items */
+    justify-content: center;
+    flex-wrap: nowrap; /* Prevent wrapping */
   }
   
   .countdown-item {
-    padding: 10px 15px;
-    min-width: 60px;
+    padding: 8px 12px; /* Reduced padding */
+    min-width: 55px; /* Smaller minimum width */
+    flex: 1; /* Allow items to share space equally */
+    max-width: 70px; /* Prevent items from getting too wide */
   }
   
   .countdown-number {
-    font-size: 1.5rem;
+    font-size: 1.3rem; /* Slightly smaller font */
   }
   
   .countdown-label {
-    font-size: 0.7rem;
+    font-size: 0.65rem; /* Smaller label text */
   }
   
   .tune-in-info h3 {
@@ -372,6 +425,103 @@ onUnmounted(() => {
     font-size: 1rem;
   }
 }
+
+/* Social Media Links Styles */
+.social-media-links {
+  margin-top: 30px;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
+
+.social-media-links h4 {
+  color: #333;
+  font-size: 1.2rem;
+  margin-bottom: 15px;
+  font-weight: 600;
+  text-align: center;
+}
+
+.social-icons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+  flex-wrap: wrap;
+}
+
+.social-icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  padding: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+  width: 50px;
+  height: 50px;
+  background: white;
+  border: 2px solid #e0e0e0;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.social-icon:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  border-color: transparent;
+}
+
+.platform-logo {
+  width: 28px;
+  height: 28px;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+.social-icon:hover .platform-logo {
+  transform: scale(1.1);
+}
+
+.spotify-icon:hover {
+  background: #1DB954;
+  box-shadow: 0 6px 20px rgba(29, 185, 84, 0.3);
+}
+
+.youtube-icon:hover {
+  background: #FF0000;
+  box-shadow: 0 6px 20px rgba(255, 0, 0, 0.3);
+}
+
+.apple-icon:hover {
+  background: #A855F7;
+  box-shadow: 0 6px 20px rgba(168, 85, 247, 0.3);
+}
+
+.pocketcasts-icon:hover {
+  background: #F43E37;
+  box-shadow: 0 6px 20px rgba(244, 62, 55, 0.3);
+}
+
+/* Mobile responsiveness for social media links */
+@media (max-width: 480px) {
+  .social-icons {
+    gap: 10px;
+  }
+  
+  .social-icon {
+    width: 45px;
+    height: 45px;
+    padding: 6px;
+  }
+  
+  .platform-logo {
+    width: 24px;
+    height: 24px;
+  }
+  
+  .social-media-links h4 {
+    font-size: 1.1rem;
+  }
+}
+
 .secret-page {
   min-height: 100vh;
   min-width: 100vw;
@@ -866,6 +1016,108 @@ onUnmounted(() => {
   max-width: 100%;
   object-fit: contain;
   margin-bottom: 30px;
+}
+
+.clickable-image {
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.clickable-image:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.click-hint {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: -20px;
+  margin-bottom: 20px;
+  opacity: 0.8;
+}
+
+/* Fullscreen Modal Styles */
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  overflow: auto;
+  padding: 40px 20px;
+}
+
+.fullscreen-container {
+  position: relative;
+  max-width: 95vw;
+  max-height: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.fullscreen-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  cursor: default;
+  display: block;
+}
+
+.close-fullscreen {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+}
+
+.close-fullscreen:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
+/* Mobile responsiveness for fullscreen modal */
+@media (max-width: 768px) {
+  .close-fullscreen {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .fullscreen-container {
+    max-width: 98vw;
+    max-height: 98vh;
+  }
+  
+  .click-hint {
+    font-size: 0.8rem;
+  }
 }
 
 .secret-info h3 {

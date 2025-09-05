@@ -5,7 +5,8 @@
         <img 
           src="../assets/mysteriousmissive.png" 
           alt="An image of a mysterious missive sealed with a wax stamp" 
-          class="login-image"
+          class="login-image clickable-image"
+          @click="openFullscreen"
         />
       </div>
       
@@ -16,7 +17,7 @@
           <input
             v-model="password"
             type="password"
-            placeholder="Enter the keys"
+            placeholder="Enter the password"
             class="password-input"
             :class="{ 'error': showError }"
             @input="clearError"
@@ -28,13 +29,26 @@
         </button>
         
         <div v-if="showError" class="error-message">
-          Incorrect keys. Please try again. (hint: no capital letters)
+          Incorrect password. Please try again.
         </div>
         <div class="login-hint">
           Need help? Ask for it in the
           <a href="https://discord.gg/calyrex" target="_blank" rel="noopener">Discord!</a>
         </div>
       </form>
+    </div>
+    
+    <!-- Fullscreen Image Modal -->
+    <div v-if="showFullscreen" class="fullscreen-modal" @click="closeFullscreen">
+      <div class="fullscreen-container">
+        <button class="close-fullscreen" @click="closeFullscreen">✕</button>
+        <img 
+          src="../assets/mysteriousmissive.png" 
+          alt="Full size mysterious missive"
+          class="fullscreen-image"
+          @click.stop
+        />
+      </div>
     </div>
   </div>
 </template>
@@ -46,6 +60,7 @@ const emit = defineEmits(['login-success'])
 
 const password = ref('')
 const showError = ref(false)
+const showFullscreen = ref(false)
 
 const correctPassword = import.meta.env.VITE_PASSWORD || 'groundfiresteelgrassnormalpsychic'
 
@@ -60,6 +75,19 @@ const handleLogin = () => {
 
 const clearError = () => {
   showError.value = false
+}
+
+// Fullscreen image methods
+const openFullscreen = () => {
+  showFullscreen.value = true
+  // Prevent body scroll when modal is open
+  document.body.style.overflow = 'hidden'
+}
+
+const closeFullscreen = () => {
+  showFullscreen.value = false
+  // Restore body scroll
+  document.body.style.overflow = 'auto'
 }
 </script>
 
@@ -81,9 +109,9 @@ const clearError = () => {
   padding: 40px;
   box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
-  max-width: 90vw;
+  max-width: 95vw;
   width: 100%;
-  max-height: 90vh;
+  max-height: 95vh;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -96,11 +124,29 @@ const clearError = () => {
 }
 
 .login-image {
-  max-height: 35vh;
+  max-height: 40vh;
   max-width: 100%;
   width: auto;
   height: auto;
   object-fit: contain;
+}
+
+.clickable-image {
+  cursor: pointer;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.clickable-image:hover {
+  transform: scale(1.02);
+  filter: brightness(1.05);
+}
+
+.click-hint {
+  color: #666;
+  font-size: 0.9rem;
+  font-style: italic;
+  margin-top: 10px;
+  opacity: 0.8;
 }
 
 .login-title {
@@ -188,6 +234,69 @@ const clearError = () => {
   75% { transform: translateX(5px); }
 }
 
+/* Fullscreen Modal Styles */
+.fullscreen-modal {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 9999;
+  cursor: pointer;
+  backdrop-filter: blur(5px);
+  overflow: auto;
+  padding: 40px 20px;
+}
+
+.fullscreen-container {
+  position: relative;
+  max-width: 95vw;
+  max-height: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+}
+
+.fullscreen-image {
+  max-width: 100%;
+  height: auto;
+  object-fit: contain;
+  border-radius: 8px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+  cursor: default;
+  display: block;
+}
+
+.close-fullscreen {
+  position: absolute;
+  top: -40px;
+  right: -40px;
+  background: rgba(255, 255, 255, 0.9);
+  color: #333;
+  border: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 1.2rem;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  z-index: 10000;
+}
+
+.close-fullscreen:hover {
+  background: white;
+  transform: scale(1.1);
+}
+
 @media (max-width: 480px) {
   .login-container {
     padding: 10px;
@@ -227,6 +336,23 @@ const clearError = () => {
   
   .login-button {
     padding: 12px 24px;
+  }
+  
+  .click-hint {
+    font-size: 0.8rem;
+  }
+  
+  .close-fullscreen {
+    top: 10px;
+    right: 10px;
+    width: 35px;
+    height: 35px;
+    font-size: 1rem;
+  }
+  
+  .fullscreen-container {
+    max-width: 98vw;
+    max-height: 98vh;
   }
 }
 
